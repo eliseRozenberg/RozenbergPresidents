@@ -1,5 +1,7 @@
 package rozenberg.presidents;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +27,17 @@ public class PresidentAdapter extends RecyclerView.Adapter<PresidentViewHolder> 
     }
 
     @Override
-        public void onBindViewHolder(PresidentViewHolder holder, int position) {
+        public void onBindViewHolder(final PresidentViewHolder holder, int position) {
             holder.bind(presidentList.get(position));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = holder.itemView.getContext();
+                Intent intent = new Intent(context, DetailActivity.class);
+                context.startActivity(intent);
+
+            }
+        });
     }
 
     @Override
