@@ -18,7 +18,8 @@ import java.io.InputStreamReader;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    public static PresidentsList presidentsList;
+    private President[]  presidentList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         //make it vertical
         recyclerView.setLayoutManager(layoutManager);
-        //tell recyclerr to use the layout manager
+        //tell recycler to use the layout manager
 
 
         //tell gson that treet underscore like a camel case
@@ -38,13 +39,12 @@ public class MainActivity extends AppCompatActivity {
         GsonBuilder builder = new GsonBuilder();
         builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
         Gson gson= builder.create();
-
-        InputStream in = getResources().openRawResource(R.raw.presidents);
-        presidentsList = gson.fromJson(new InputStreamReader(in), PresidentsList.class);
+       InputStream in = getResources().openRawResource(R.raw.presidents);
+        presidentList = gson.fromJson(new InputStreamReader(in), President[].class);
         //need to convert the input into the recycler view
         //we need a linear layout manager
 
-        PresidentAdapter adapter= new PresidentAdapter(presidentsList);
+        PresidentAdapter adapter= new PresidentAdapter(presidentList);
         recyclerView.setAdapter(adapter);
     }
 

@@ -1,9 +1,11 @@
 package rozenberg.presidents;
 
+import java.io.Serializable;
+
 /**
  * Created by Elise on 10/22/2015.
  */
-public class President {
+public class President implements Serializable {
     private int number;
     private String president;
     private int birthYear;
