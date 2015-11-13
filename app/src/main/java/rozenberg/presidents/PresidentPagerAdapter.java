@@ -61,9 +61,21 @@ public class PresidentPagerAdapter extends PagerAdapter{
         President president = presidents[position];
         image.setImageResource(pic[position]);
         name.setText(president.getPresident());
-        number.setText(String.valueOf("President #" +president.getNumber()));
-        birthYearDeathYear.setText(String.valueOf(president.getBirthYear() + "  /  " + president.getDeathYear()));
-        tookOfficeLeftOffice.setText(president.getTookOffice() + "  /  " + president.getLeftOffice());
+        number.setText(String.valueOf("President #" + president.getNumber()));
+        ;
+        if (president.getDeathYear()==null){
+            birthYearDeathYear.setText(String.valueOf(president.getBirthYear() + "  / Still Alive"));
+        }
+        else{
+            birthYearDeathYear.setText(String.valueOf(president.getBirthYear() + "  /  " + president.getDeathYear()));
+        }
+
+        if (president.getLeftOffice()==null){
+            tookOfficeLeftOffice.setText(president.getTookOffice() + "  /  Still in Office");
+        }
+        else{
+            tookOfficeLeftOffice.setText(president.getTookOffice() + "  /  " + president.getLeftOffice());
+        }
         party.setText(president.getParty());
         //need to pass the view which got from inflater
         container.addView(view);
