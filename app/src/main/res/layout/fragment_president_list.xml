@@ -8,12 +8,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-    <fragment
-        android:id="@+id/listFragment"
-        android:name="rozenberg.presidents.PresidentListFragment"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/fragment_president_list"/>
+        android:layout_height="match_parent" />
 
-</RelativeLayout><!--changed the main after we pasted it into the fragment layout
-        our actitivy main doesnt have recycler view it now miantains aa fragment -->
+</RelativeLayout>

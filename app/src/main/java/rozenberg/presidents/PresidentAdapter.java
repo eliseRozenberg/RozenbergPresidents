@@ -13,10 +13,14 @@ import android.view.ViewGroup;
 public class PresidentAdapter extends RecyclerView.Adapter<PresidentViewHolder> {
 
     private President[] presidentList;
+    private OnPresidentSelectedListener onClickListener;
+    private int[] images;
     //when a class needs something pass it through a constructor
 
-    public PresidentAdapter(President[] presidents){
+    public PresidentAdapter(President[] presidents, int[] images, OnPresidentSelectedListener listener) {
         this.presidentList = presidents;
+        this.images = images;
+        this.onClickListener = listener;
     }
 
     @Override
@@ -29,25 +33,23 @@ public class PresidentAdapter extends RecyclerView.Adapter<PresidentViewHolder> 
 
     @Override
     //puts the view into the line
-        public void onBindViewHolder(final PresidentViewHolder holder, final int position) {
-            holder.bind(presidentList[position]);
+    public void onBindViewHolder(final PresidentViewHolder holder, final int position) {
+        holder.bind(presidentList[position]);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = holder.itemView.getContext();
-                //intent to start detail activity
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra("PRESIDENTS", presidentList);
-                intent.putExtra("POSITION",position);
-                context.startActivity(intent);
-
+                onClickListener.onSelect(presidentList, images, position);
             }
         });
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
 
+    @Override
+    public int getItemCount() {
         return presidentList.length;
     }
 }

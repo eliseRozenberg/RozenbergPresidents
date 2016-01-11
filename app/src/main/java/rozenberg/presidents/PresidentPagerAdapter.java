@@ -11,11 +11,13 @@ import android.widget.TextView;
 /**
  * Created by Elise on 10/29/2015.
  */
-public class PresidentPagerAdapter extends PagerAdapter{
-     private President[] presidents;
+public class PresidentPagerAdapter extends PagerAdapter {
+    private President[] presidents;
+    private int []images;
 
-    public PresidentPagerAdapter(President[] presidents){
+    public PresidentPagerAdapter(President[] presidents, int[]images) {
         this.presidents = presidents;
+        this.images=images;
     }
 
 
@@ -38,16 +40,7 @@ public class PresidentPagerAdapter extends PagerAdapter{
     public Object instantiateItem(ViewGroup container, int position) {
         LayoutInflater inflater = LayoutInflater.from(container.getContext());
         View view = inflater.inflate(R.layout.president_pager_item, null);
-        int[]pic = new int[]{
-                R.drawable.gwash, R.drawable.jadams, R.drawable.tjeff,R.drawable.jmad,R.drawable.jmon,
-                R.drawable.jqdams,R.drawable.ajack,R.drawable.mvburen,R.drawable.whharis,R.drawable.jtyler,
-                R.drawable.jkpolk,R.drawable.ztaylor,R.drawable.mfil,R.drawable.fpierce,R.drawable.jbuch,
-                R.drawable.alinc,R.drawable.ajohn,R.drawable.usgrant,R.drawable.rbhayes,R.drawable.jagar,
-                R.drawable.caarth,R.drawable.gclev,R.drawable.bharis,R.drawable.gclev,R.drawable.wmick,
-                R.drawable.troos, R.drawable.whtaft,R.drawable.wwil,R.drawable.wghard,R.drawable.ccool,
-                R.drawable.hhoov,R.drawable.fdroos,R.drawable.hstru,R.drawable.ddeisen,R.drawable.jfkenn,
-                R.drawable.lbjohn,R.drawable.rmnix,R.drawable.grford,R.drawable.jcart,R.drawable.rreag,
-                R.drawable.gbush,R.drawable.bclint,R.drawable.gwbush,R.drawable.bobama};
+
         ImageView image = (ImageView) view.findViewById(R.id.image);
         TextView name = (TextView) view.findViewById(R.id.name);
         TextView number = (TextView) view.findViewById(R.id.number);
@@ -59,21 +52,19 @@ public class PresidentPagerAdapter extends PagerAdapter{
 
         //position is president in the array
         President president = presidents[position];
-        image.setImageResource(pic[position]);
+        image.setImageResource(images[position]);
         name.setText(president.getPresident());
         number.setText(String.valueOf("President #" + president.getNumber()));
-        ;
-        if (president.getDeathYear()==null){
+
+        if (president.getDeathYear() == null) {
             birthYearDeathYear.setText(String.valueOf(president.getBirthYear() + "  / Still Alive"));
-        }
-        else{
+        } else {
             birthYearDeathYear.setText(String.valueOf(president.getBirthYear() + "  /  " + president.getDeathYear()));
         }
 
-        if (president.getLeftOffice()==null){
+        if (president.getLeftOffice() == null) {
             tookOfficeLeftOffice.setText(president.getTookOffice() + "  /  Still in Office");
-        }
-        else{
+        } else {
             tookOfficeLeftOffice.setText(president.getTookOffice() + "  /  " + president.getLeftOffice());
         }
         party.setText(president.getParty());

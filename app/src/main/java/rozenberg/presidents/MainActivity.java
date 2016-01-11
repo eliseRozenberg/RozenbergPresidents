@@ -1,5 +1,7 @@
 package rozenberg.presidents;
 
+import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,58 +17,38 @@ import com.google.gson.GsonBuilder;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnPresidentSelectedListener {
 
-    private RecyclerView recyclerView;
-    private President[]  presidentList;
+    private PresidentListFragment listFragment;
+    private PresidentDetailFragment detailFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = (RecyclerView) findViewById(R.id.list);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        //everything be in one line
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        //make it vertical
-        recyclerView.setLayoutManager(layoutManager);
-        //tell recycler to use the layout manager
+        //removed all the stuff with recycler view
+        //dont need to do anything here because its already created in xml
+        //remove all other methods because they dont matter
 
-
-        //tell gson that treet underscore like a camel case
-        //tell that to what ceates the gson object - GSON Builder
-        GsonBuilder builder = new GsonBuilder();
-        builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
-        Gson gson= builder.create();
-       InputStream in = getResources().openRawResource(R.raw.presidents);
-        presidentList = gson.fromJson(new InputStreamReader(in), President[].class);
-        //need to convert the input into the recycler view
-        //we need a linear layout manager
-
-        PresidentAdapter adapter= new PresidentAdapter(presidentList);
-        recyclerView.setAdapter(adapter);
+        FragmentManager manager = getSupportFragmentManager();
+        listFragment = (PresidentListFragment) manager.findFragmentById(R.id.listFragment);
+        detailFragment = (PresidentDetailFragment) manager.findFragmentById(R.id.detailFragment);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    public void onSelect(President[] presidents,int[] images, int position) {
+        if (detailFragment != null) {
+            detailFragment.showPresidentDetail(presidents,images, position);
+        } else {
+            Intent intent = new Intent(this, DetailActivity.class);
+            intent.putExtra("PRESIDENTS", presidents);
+            intent.putExtra("POSITION", position);
+            intent.putExtra("PRES_IMAGES",images);
+            this.startActivity(intent);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }
+
+
+
